@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kapt)
 }
 
-val packageName = "com.mitch.appname"
+val packageName = "com.mitch.dimlight"
 
 android {
     namespace = packageName
