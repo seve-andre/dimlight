@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mitch.dimlight.navigation.NavGraphs
@@ -37,20 +34,14 @@ import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.mitch.dimlight.ui.util.rememberDimlightState
 import com.mitch.dimlight.util.DimlightTheme
-import com.mitch.dimlight.util.network.NetworkMonitor
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    // if not needed, also remove permission from AndroidManifest.xml
-    @Inject
-    lateinit var networkMonitor: NetworkMonitor
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -94,17 +85,7 @@ class MainActivity : AppCompatActivity() {
                 DimlightMaterialTheme(
                     isThemeDark = isThemeDark
                 ) {
-                    val appState = rememberDimlightState(networkMonitor)
-                    val isOffline by appState.isOffline.collectAsStateWithLifecycle()
-
-                    LaunchedEffect(isOffline) {
-                        if (isOffline) {
-                            appState.snackbarHostState.showSnackbar(
-                                message = getString(R.string.not_connected),
-                                duration = SnackbarDuration.Indefinite
-                            )
-                        }
-                    }
+                    val appState = rememberDimlightState()
 
                     Scaffold(
                         snackbarHost = { SnackbarHost(appState.snackbarHostState) },
