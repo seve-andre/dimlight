@@ -1,6 +1,10 @@
 package com.mitch.dimlight.util.flashlight
 
+import kotlinx.coroutines.flow.Flow
+
 interface FlashlightHelper {
-    val hasPermission: Boolean
-    fun turnOn(level: Int = 1)
+    val hasPermission: Flow<Boolean>
+    val maxLevel: Int
+    fun turnOn(level: Int)
+    fun turnOff()
 }

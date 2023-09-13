@@ -1,29 +1,33 @@
 package com.mitch.dimlight.util.flashlight
 
-import android.content.Context
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
-import androidx.core.content.getSystemService
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
-import timber.log.Timber
 
 class CameraManagerFlashlightHelper @Inject constructor(
-    private val context: Context
+    private val cameraManager: CameraManager
 ) : FlashlightHelper {
-    override val hasPermission: Boolean
-        get() = false
+    private val cameraId = cameraManager.cameraIdList[0] ?: throw Exception()
+    private val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
+
+    override val hasPermission: Flow<Boolean> = callbackFlow {
+//        val cameraPermission = context.checkSelfPermission(android.Manifest.permission.CAMERA)
+    }
+
+    override val maxLevel: Int
+        get() {
+            return cameraCharacteristics[CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL]
+                ?: throw Exception()
+        }
 
     override fun turnOn(level: Int) {
-        val camera = context.getSystemService<CameraManager>() as CameraManager
-        val cameraId = camera.cameraIdList[0] ?: ""
-        Timber.d("cameraId is $cameraId")
+        require(level in 1..maxLevel)
+        cameraManager.turnOnTorchWithStrengthLevel(cameraId, level)
+    }
 
-        val characteristics = camera.getCameraCharacteristics(cameraId)
-
-        val maxLevel = characteristics[CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL]
-        val defaultLevel = characteristics[CameraCharacteristics.FLASH_INFO_STRENGTH_DEFAULT_LEVEL]
-        Timber.d("max level is $maxLevel and default level is $defaultLevel")
-
-        // camera?.turnOnTorchWithStrengthLevel("", 1)
+    override fun turnOff() {
+        cameraManager.setTorchMode(cameraId, false)
     }
 }
