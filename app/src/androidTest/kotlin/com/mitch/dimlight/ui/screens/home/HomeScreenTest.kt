@@ -39,10 +39,7 @@ class HomeScreenTest {
     fun success_showsSettingsOptions() {
         composeTestRule.setContent {
             HomeScreen(
-                uiState = HomeUiState.Success(
-                    language = DimlightLanguage.ENGLISH,
-                    theme = DimlightTheme.FOLLOW_SYSTEM
-                ),
+                uiState = HomeUiState.Success,
                 onChangeLanguage = { },
                 onChangeTheme = { }
             )
