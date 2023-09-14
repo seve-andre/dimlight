@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mitch.dimlight.domain.model.FlashlightDimLevel
+import com.mitch.dimlight.domain.model.FlashlightDimFixedLevel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 
@@ -30,7 +30,7 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
-    onTurnOnFlashlight: (FlashlightDimLevel) -> Unit,
+    onTurnOnFlashlight: (FlashlightDimFixedLevel) -> Unit,
     onTurnOffFlashlight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +39,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { onTurnOnFlashlight(FlashlightDimLevel.Max) }) {
+        Button(onClick = { onTurnOnFlashlight(FlashlightDimFixedLevel.Max) }) {
             Text(text = "Turn on")
         }
 
