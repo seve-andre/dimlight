@@ -11,8 +11,8 @@ class HomeViewModel @Inject constructor(
     private val flashlightUseCases: FlashlightUseCases
 ) : ViewModel() {
 
-    fun turnOnFlashlight(level: FlashlightDimLevel) {
-        flashlightUseCases.turnOnFlashlight(level)
+    fun turnOnFlashlight(level: FlashlightDimFixedLevel) {
+        flashlightUseCases.turnOnFlashlight(level.value)
     }
 
     fun turnOffFlashlight() {
