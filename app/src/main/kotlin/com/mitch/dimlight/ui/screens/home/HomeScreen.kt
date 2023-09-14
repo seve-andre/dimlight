@@ -65,8 +65,7 @@ fun HomeScreen(
     Column(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .weight(2f)
-                .background(Color.Cyan),
+                .weight(2f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -93,8 +92,7 @@ fun HomeScreen(
 
         Column(
             modifier = Modifier
-                .weight(1f)
-                .background(Color.Red),
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(padding.large)
         ) {
             Row(
