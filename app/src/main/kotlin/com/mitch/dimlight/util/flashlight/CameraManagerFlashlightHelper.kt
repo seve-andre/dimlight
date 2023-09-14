@@ -4,6 +4,7 @@ import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 class CameraManagerFlashlightHelper @Inject constructor(
@@ -23,6 +24,7 @@ class CameraManagerFlashlightHelper @Inject constructor(
         }
 
     override fun turnOn(level: Int) {
+        Timber.d("level: $level")
         require(level in 1..maxLevel)
         cameraManager.turnOnTorchWithStrengthLevel(cameraId, level)
     }
