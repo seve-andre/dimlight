@@ -75,15 +75,15 @@ fun HomeScreen(
                 Slider(
                     modifier = Modifier.semantics { contentDescription = "Localized Description" },
                     value = currentLevel.toFloat(),
-                    onValueChange = { currentLevel = it.toInt() },
-                    valueRange = 0f..100f,
-                    onValueChangeFinished = {
+                    onValueChange = {
+                        currentLevel = it.toInt()
                         if (currentLevel == 0) {
                             onTurnOffFlashlight()
                         } else {
                             onTurnOnFlashlight(currentLevel)
                         }
-                    }
+                    },
+                    valueRange = 0f..100f
                 )
             }
         }
