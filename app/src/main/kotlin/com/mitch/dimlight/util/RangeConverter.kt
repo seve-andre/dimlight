@@ -1,35 +1,35 @@
 package com.mitch.dimlight.util
 
-class RangeConverter<T> where T : Number, T : Comparable<T> {
-    private lateinit var numberToConvert: T
-    private lateinit var fromRange: ClosedRange<T>
-    private lateinit var toRange: ClosedRange<T>
-
-    fun convert(number: T): RangeConverter<T> {
-        this.numberToConvert = number
-        return this
+class RangeConverter {
+    companion object {
+        fun <T> convert(number: T): ValueRangeConverter<T> where T : Number, T : Comparable<T> {
+            return ValueRangeConverter(number)
+        }
     }
+}
 
-    fun fromRange(range: ClosedRange<T>): RangeConverter<T> {
-        check(range.contains(numberToConvert))
+class ValueRangeConverter<T>(private val number: T) where T : Number, T : Comparable<T> {
 
-        this.fromRange = range
-        return this
+    fun <R> fromRange(initialRange: R): FromRangeConverter<T, R> where R : ClosedRange<T> {
+        check(initialRange.contains(number))
+
+        return FromRangeConverter(number, initialRange)
     }
+}
 
-    fun toRange(range: ClosedRange<T>): T {
-        this.toRange = range
-        return convertFromRangeToRange()
-    }
+class FromRangeConverter<T, R>(
+    private val number: T,
+    private val initialRange: R
+) where T : Number, T : Comparable<T>, R : ClosedRange<T> {
 
-    private fun convertFromRangeToRange(): T {
-        val fromRangeStart = fromRange.start.toDouble()
-        val fromRangeEnd = fromRange.endInclusive.toDouble()
+    fun toRange(targetRange: R): T {
+        val fromRangeStart = initialRange.start.toDouble()
+        val fromRangeEnd = initialRange.endInclusive.toDouble()
 
-        val toRangeStart = toRange.start.toDouble()
-        val toRangeEnd = toRange.endInclusive.toDouble()
+        val toRangeStart = targetRange.start.toDouble()
+        val toRangeEnd = targetRange.endInclusive.toDouble()
 
-        val ratio = (numberToConvert.toDouble() - fromRangeStart) / (fromRangeEnd - fromRangeStart)
+        val ratio = (number.toDouble() - fromRangeStart) / (fromRangeEnd - fromRangeStart)
         val result = toRangeStart + (ratio * (toRangeEnd - toRangeStart))
 
         @Suppress("UNCHECKED_CAST")
@@ -37,6 +37,6 @@ class RangeConverter<T> where T : Number, T : Comparable<T> {
     }
 }
 
-fun <T> convert(number: T): RangeConverter<T> where T : Number, T : Comparable<T> {
-    return RangeConverter<T>().convert(number)
+fun <T> convert(number: T): ValueRangeConverter<T> where T : Number, T : Comparable<T> {
+    return RangeConverter.convert(number)
 }
