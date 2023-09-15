@@ -8,8 +8,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.mitch.dimlight.R
 import com.mitch.dimlight.ui.util.components.loading.LoadingTag
-import com.mitch.dimlight.util.DimlightLanguage
-import com.mitch.dimlight.util.DimlightTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,9 +22,8 @@ class HomeScreenTest {
     fun loading_showsLoadingScreen() {
         composeTestRule.setContent {
             HomeScreen(
-                uiState = HomeUiState.Loading,
-                onChangeLanguage = { },
-                onChangeTheme = { }
+                onTurnOnFlashlight = { },
+                onTurnOffFlashlight = { }
             )
         }
 
@@ -39,9 +36,8 @@ class HomeScreenTest {
     fun success_showsSettingsOptions() {
         composeTestRule.setContent {
             HomeScreen(
-                uiState = HomeUiState.Success,
-                onChangeLanguage = { },
-                onChangeTheme = { }
+                onTurnOnFlashlight = { },
+                onTurnOffFlashlight = { }
             )
         }
 
