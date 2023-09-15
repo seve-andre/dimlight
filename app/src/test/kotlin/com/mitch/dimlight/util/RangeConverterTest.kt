@@ -27,7 +27,8 @@ internal class RangeConverterTest {
     @ParameterizedTest
     @CsvSource(
         "10, 100",
-        "1, 1"
+        "1, 1",
+        "5, 45"
     )
     fun `test result is correct`(number: Int, expected: Int) {
         val result = convert(number).fromRange(1..10).toRange(1..100)

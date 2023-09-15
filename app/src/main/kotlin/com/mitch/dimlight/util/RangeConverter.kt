@@ -29,8 +29,8 @@ class FromRangeConverter<T, R>(
         val toRangeStart = targetRange.start.toDouble()
         val toRangeEnd = targetRange.endInclusive.toDouble()
 
-        val ratio = (number.toDouble() - fromRangeStart) / (fromRangeEnd - fromRangeStart)
-        val result = toRangeStart + (ratio * (toRangeEnd - toRangeStart))
+        // 𝐺 = ((𝑆−𝑆𝑚𝑖𝑛)⋅(𝐺𝑚𝑎𝑥−𝐺𝑚𝑖𝑛)) / (𝑆𝑚𝑎𝑥−𝑆𝑚𝑖𝑛) + 𝐺𝑚𝑖𝑛
+        val result = (((number.toDouble() - fromRangeStart) * (toRangeEnd - toRangeStart)) / (fromRangeEnd - fromRangeStart)) + toRangeStart
 
         @Suppress("UNCHECKED_CAST")
         return result as T
