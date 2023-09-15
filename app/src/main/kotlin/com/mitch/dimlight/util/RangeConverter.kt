@@ -1,6 +1,6 @@
 package com.mitch.dimlight.util
 
-class RangeConverter {
+class RangeConverter private constructor() {
     companion object {
         fun <T> convert(number: T): ValueRangeConverter<T> where T : Number, T : Comparable<T> {
             return ValueRangeConverter(number)
