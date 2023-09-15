@@ -10,14 +10,14 @@ class RangeConverter private constructor() {
 
 class ValueRangeConverter<T>(private val number: T) where T : Number, T : Comparable<T> {
 
-    fun <R> fromRange(initialRange: R): FromRangeConverter<T, R> where R : ClosedRange<T> {
+    fun <R> fromRange(initialRange: R): InitialRangeConverter<T, R> where R : ClosedRange<T> {
         check(initialRange.contains(number))
 
-        return FromRangeConverter(number, initialRange)
+        return InitialRangeConverter(number, initialRange)
     }
 }
 
-class FromRangeConverter<T, R>(
+class InitialRangeConverter<T, R>(
     private val number: T,
     private val initialRange: R
 ) where T : Number, T : Comparable<T>, R : ClosedRange<T> {
