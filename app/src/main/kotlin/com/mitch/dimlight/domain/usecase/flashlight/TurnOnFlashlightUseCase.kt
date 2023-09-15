@@ -1,6 +1,6 @@
 package com.mitch.dimlight.domain.usecase.flashlight
 
-import com.mitch.dimlight.util.extension.convertFromRangeToAnother
+import com.mitch.dimlight.util.convert
 import com.mitch.dimlight.util.flashlight.FlashlightHelper
 
 class TurnOnFlashlightUseCase(
@@ -8,7 +8,10 @@ class TurnOnFlashlightUseCase(
 ) {
 
     operator fun invoke(level: Int) {
-        val adjustedRangeLevel = level.convertFromRangeToAnother(1..100, 1..flashlightHelper.maxLevel)
+        val adjustedRangeLevel = convert(level)
+            .fromRange(1..100)
+            .toRange(1..flashlightHelper.maxLevel)
+
         flashlightHelper.turnOn(adjustedRangeLevel)
     }
 }
