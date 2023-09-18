@@ -6,15 +6,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
@@ -24,7 +17,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -45,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         /* Must be called before super.onCreate()
          *
@@ -74,10 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Turn off the decor fitting system windows, which allows us to handle insets,
-        // including IME animations
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
         setContent {
             val isThemeDark = shouldUseDarkTheme(uiState)
 
@@ -88,19 +75,12 @@ class MainActivity : AppCompatActivity() {
                     val appState = rememberDimlightState()
 
                     Scaffold(
-                        snackbarHost = { SnackbarHost(appState.snackbarHostState) },
-                        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+                        snackbarHost = { SnackbarHost(appState.snackbarHostState) }
                     ) { padding ->
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(padding)
-                                .consumeWindowInsets(padding)
-                                .windowInsetsPadding(
-                                    WindowInsets.safeDrawing.only(
-                                        WindowInsetsSides.Horizontal
-                                    )
-                                )
                         ) {
                             DestinationsNavHost(
                                 navGraph = NavGraphs.root,
