@@ -1,18 +1,27 @@
 package com.mitch.dimlight.ui.screens.home
 
+import android.widget.ImageView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -22,13 +31,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mitch.dimlight.R
 import com.mitch.dimlight.domain.model.FlashlightDimFixedLevel
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.ramcosta.composedestinations.annotation.Destination
@@ -51,6 +67,7 @@ fun HomeRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onTurnOnFlashlight: (Int) -> Unit,
@@ -62,35 +79,66 @@ fun HomeScreen(
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier
-                .weight(2f),
+            modifier = Modifier.weight(2f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(padding.medium)
+                    .weight(1f)
+                    .wrapContentSize(Alignment.BottomCenter)
             ) {
-                Slider(
-                    modifier = Modifier.semantics { contentDescription = "Localized Description" },
-                    value = currentLevel.toFloat(),
-                    onValueChange = {
-                        currentLevel = it.toInt()
-                        if (currentLevel == 0) {
-                            onTurnOffFlashlight()
-                        } else {
-                            onTurnOnFlashlight(currentLevel)
-                        }
-                    },
-                    valueRange = 0f..100f
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(RectangleShape)
+                        .background(Color.Red)
                 )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Image(
+                        painter = painterResource(id = R.drawable.flashlight),
+                        contentDescription = null
+                    )
+
+                    val interactionSource = remember { MutableInteractionSource() }
+
+                    Slider(
+                        modifier = Modifier
+                            .padding(padding.medium)
+                            .semantics {
+                                contentDescription = "Change flashlight brightness level"
+                            },
+                        value = currentLevel.toFloat(),
+                        onValueChange = {
+                            currentLevel = it.toInt()
+                            if (currentLevel == 0) {
+                                onTurnOffFlashlight()
+                            } else {
+                                onTurnOnFlashlight(currentLevel)
+                            }
+                        },
+                        valueRange = 0f..100f,
+                        interactionSource = interactionSource,
+                        thumb = {
+                            SliderDefaults.Thumb(
+                                interactionSource = interactionSource,
+                                thumbSize = DpSize(40.dp, 40.dp)
+                            )
+                        }
+                    )
+                }
             }
         }
 
         Column(
-            modifier = Modifier
-                .weight(1f),
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(padding.large)
         ) {
             Row(
@@ -139,7 +187,7 @@ fun HomeScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(
-                    space = padding.small,
+                    space = padding.medium,
                     alignment = Alignment.CenterHorizontally
                 )
             ) {
