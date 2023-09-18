@@ -144,6 +144,7 @@ dependencies {
     implementation(libs.compose.material3.windowSizeClass)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.testharness)
+    implementation(libs.accompanist.drawablePainter)
     implementation(libs.lifecycle.viewModel.compose)
     implementation(libs.lifecycle.viewModel.savedstate)
     implementation(libs.lifecycle.runtimeCompose)
