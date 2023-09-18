@@ -4,11 +4,14 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.mitch.dimlight.R
+import com.mitch.dimlight.domain.model.FlashlightUtils
+import com.mitch.dimlight.util.convert
 
 @Composable
 fun FlashlightImage(
@@ -17,14 +20,17 @@ fun FlashlightImage(
 ) {
     val flashlightBrightnessDrawable = AppCompatResources.getDrawable(
         LocalContext.current,
-        R.drawable.flashlight
+        R.drawable.flashlight_brightness_levels
     )
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         if (flashlightBrightnessDrawable != null && brightnessLevel > 0) {
-            /*flashlightBrightnessDrawable.level = convert(brightnessLevel)
+            flashlightBrightnessDrawable.level = convert(brightnessLevel)
                 .fromRange(FlashlightUtils.brightnessActiveRange)
-                .toRange(FlashlightUtils.brightnessDrawableRange)*/
+                .toRange(0..4)
 
             Image(
                 painter = rememberDrawablePainter(flashlightBrightnessDrawable),
