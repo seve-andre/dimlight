@@ -11,6 +11,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,11 +47,10 @@ fun HomeScreen(
     onTurnOffFlashlight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var brightnessLevel by remember { mutableIntStateOf(0) }
+    var brightnessLevel by rememberSaveable { mutableIntStateOf(0) }
     val isOn by remember { derivedStateOf { brightnessLevel != 0 } }
 
     Column(modifier = modifier.fillMaxSize()) {
-
         // 1) flashlight image with slider
         Row(
             modifier = Modifier
