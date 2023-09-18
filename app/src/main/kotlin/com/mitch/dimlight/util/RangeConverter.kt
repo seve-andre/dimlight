@@ -11,7 +11,7 @@ class RangeConverter private constructor() {
 class ValueRangeConverter<T>(private val number: T) where T : Number, T : Comparable<T> {
 
     fun <R> fromRange(initialRange: R): InitialRangeConverter<T, R> where R : ClosedRange<T> {
-        check(initialRange.contains(number))
+        check(initialRange.contains(number)) { "Number $number is not in initial range $initialRange" }
 
         return InitialRangeConverter(number, initialRange)
     }
