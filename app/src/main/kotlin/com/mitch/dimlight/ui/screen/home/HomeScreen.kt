@@ -33,8 +33,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-//    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     HomeScreen(
         onTurnOnFlashlight = viewModel::turnOnFlashlight,
         onTurnOffFlashlight = viewModel::turnOffFlashlight
