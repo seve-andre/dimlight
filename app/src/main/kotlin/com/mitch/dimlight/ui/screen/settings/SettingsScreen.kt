@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.mitch.dimlight.ui.screen.home.HomeViewModel
 import com.mitch.dimlight.ui.screen.settings.components.LanguagePickerDialog
 import com.mitch.dimlight.ui.screen.settings.components.ThemePickerDialog
 import com.mitch.dimlight.util.DimlightLanguage
@@ -12,7 +14,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
-fun SettingsRoute() {
+fun SettingsRoute(
+    viewModel: SettingsViewModel = hiltViewModel()
+) {
     SettingsScreen()
 }
 
