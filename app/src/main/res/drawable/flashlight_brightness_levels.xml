@@ -12,4 +12,5 @@
     <item android:maxLevel="2" android:drawable="@drawable/baseline_network_wifi_2_bar_24" />
     <item android:maxLevel="3" android:drawable="@drawable/baseline_network_wifi_3_bar_24" />
     <item android:maxLevel="4" android:drawable="@drawable/baseline_signal_wifi_4_bar_24" />
+    <item android:maxLevel="5" android:drawable="@drawable/baseline_signal_wifi_4_bar_24" />
 </level-list>

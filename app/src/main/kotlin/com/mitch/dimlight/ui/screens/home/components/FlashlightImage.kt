@@ -22,8 +22,6 @@ fun FlashlightImage(
     brightnessLevel: Int,
     modifier: Modifier = Modifier
 ) {
-
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -41,7 +39,7 @@ fun FlashlightImage(
                 flashlightBrightnessDrawable?.let {
                     flashlightBrightnessDrawable.level = convert(brightnessLevel)
                         .fromRange(FlashlightUtils.brightnessActiveRange)
-                        .toRange(0..4)
+                        .toRange(FlashlightUtils.brightnessDrawableRange)
 
                     Image(
                         painter = rememberDrawablePainter(flashlightBrightnessDrawable),
