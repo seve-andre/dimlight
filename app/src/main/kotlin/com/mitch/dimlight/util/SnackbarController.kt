@@ -23,7 +23,6 @@ class SnackbarController(
         cancelActiveJob()
     }
 
-    // TODO: should show SnackbarResult
     fun showSnackbar(
         message: String,
         actionLabel: String? = null

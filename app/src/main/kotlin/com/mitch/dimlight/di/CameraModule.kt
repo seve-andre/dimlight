@@ -3,6 +3,7 @@ package com.mitch.dimlight.di
 import android.content.Context
 import android.hardware.camera2.CameraManager
 import androidx.core.content.getSystemService
+import com.mitch.dimlight.util.exception.CameraServiceNotFoundException
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,6 @@ object CameraModule {
         @ApplicationContext context: Context
     ): CameraManager {
         val cameraManager = context.getSystemService<CameraManager>()
-        return cameraManager ?: throw Exception()
+        return cameraManager ?: throw CameraServiceNotFoundException()
     }
 }

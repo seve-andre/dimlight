@@ -89,9 +89,6 @@ detekt {
     allRules = false
     config.setFrom("$projectDir/config/detekt/detekt.yml")
 
-    // REMOVE once edited RepositoryModule and AppDatabase
-    ignoreFailures = true
-
     autoCorrect = true
 }
 

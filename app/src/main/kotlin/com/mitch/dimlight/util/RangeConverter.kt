@@ -30,7 +30,10 @@ class InitialRangeConverter<T, R>(
         val toRangeEnd = targetRange.endInclusive.toDouble()
 
         // 𝐺 = ((𝑆−𝑆𝑚𝑖𝑛)⋅(𝐺𝑚𝑎𝑥−𝐺𝑚𝑖𝑛)) / (𝑆𝑚𝑎𝑥−𝑆𝑚𝑖𝑛) + 𝐺𝑚𝑖𝑛
-        val result = (((number.toDouble() - fromRangeStart) * (toRangeEnd - toRangeStart)) / (fromRangeEnd - fromRangeStart)) + toRangeStart
+        val result = (
+            ((number.toDouble() - fromRangeStart) * (toRangeEnd - toRangeStart)) /
+                (fromRangeEnd - fromRangeStart)
+            ) + toRangeStart
 
         @Suppress("UNCHECKED_CAST")
         return result as T
