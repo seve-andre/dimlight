@@ -22,10 +22,7 @@ fun FlashlightImage(
     brightnessLevel: Int,
     modifier: Modifier = Modifier
 ) {
-    val flashlightBrightnessDrawable = AppCompatResources.getDrawable(
-        LocalContext.current,
-        R.drawable.flashlight_brightness_levels
-    )
+
 
     Column(
         modifier = modifier,
@@ -36,16 +33,22 @@ fun FlashlightImage(
                 .weight(1f)
                 .height(IntrinsicSize.Max)
         ) {
-            if (flashlightBrightnessDrawable != null && brightnessLevel > 0) {
-                flashlightBrightnessDrawable.level = convert(brightnessLevel)
-                    .fromRange(FlashlightUtils.brightnessActiveRange)
-                    .toRange(0..4)
-
-                Image(
-                    painter = rememberDrawablePainter(flashlightBrightnessDrawable),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxHeight()
+            if (brightnessLevel > 0) {
+                val flashlightBrightnessDrawable = AppCompatResources.getDrawable(
+                    LocalContext.current,
+                    R.drawable.flashlight_brightness_levels
                 )
+                flashlightBrightnessDrawable?.let {
+                    flashlightBrightnessDrawable.level = convert(brightnessLevel)
+                        .fromRange(FlashlightUtils.brightnessActiveRange)
+                        .toRange(0..4)
+
+                    Image(
+                        painter = rememberDrawablePainter(flashlightBrightnessDrawable),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxHeight()
+                    )
+                }
             }
         }
         Image(
