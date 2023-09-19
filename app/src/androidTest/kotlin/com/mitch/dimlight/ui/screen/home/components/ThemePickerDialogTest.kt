@@ -8,6 +8,7 @@ import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.mitch.dimlight.ui.screen.settings.components.ThemePickerDialog
 import com.mitch.dimlight.util.DimlightTheme
 import org.junit.Rule
 import org.junit.Test
