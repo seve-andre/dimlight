@@ -85,9 +85,7 @@ class MainActivity : AppCompatActivity() {
             val isThemeDark = shouldUseDarkTheme(uiState)
 
             CompositionLocalProvider(LocalPadding provides padding) {
-                DimlightMaterialTheme(
-                    isThemeDark = isThemeDark
-                ) {
+                DimlightMaterialTheme(isThemeDark) {
                     val appState = rememberDimlightState()
 
                     Scaffold(
