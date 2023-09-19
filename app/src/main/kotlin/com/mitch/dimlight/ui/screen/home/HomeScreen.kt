@@ -50,7 +50,10 @@ fun HomeScreen(
     var brightnessLevel by rememberSaveable { mutableIntStateOf(0) }
     val isOn by remember { derivedStateOf { brightnessLevel != 0 } }
 
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(padding.small)
+    ) {
         // 1) flashlight image with slider
         Row(
             modifier = Modifier
@@ -68,7 +71,8 @@ fun HomeScreen(
                         } else {
                             onTurnOnFlashlight(brightnessLevel)
                         }
-                    }
+                    },
+                    modifier = Modifier.align(Alignment.BottomCenter)
                 )
             }
         }
@@ -83,7 +87,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(padding.small),
+                    verticalArrangement = Arrangement.spacedBy(padding.medium),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     BrightnessTextFraction(brightnessLevel)
