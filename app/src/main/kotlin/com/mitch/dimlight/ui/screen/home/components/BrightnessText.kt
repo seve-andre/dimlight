@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
+import com.mitch.dimlight.ui.theme.custom.padding
 
 @Composable
 fun BrightnessTextFraction(
@@ -21,7 +21,7 @@ fun BrightnessTextFraction(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        horizontalArrangement = Arrangement.spacedBy(padding.extraSmall)
     ) {
         val textStyle = TextStyle(
             fontSize = MaterialTheme.typography.titleLarge.fontSize,
