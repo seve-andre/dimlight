@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home.components
+package com.mitch.dimlight.ui.screen.home.components
 
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home
+package com.mitch.dimlight.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
-import com.mitch.dimlight.ui.screens.home.components.BrightnessSlider
-import com.mitch.dimlight.ui.screens.home.components.BrightnessTextFraction
-import com.mitch.dimlight.ui.screens.home.components.FlashlightBrightnessControls
-import com.mitch.dimlight.ui.screens.home.components.FlashlightImage
-import com.mitch.dimlight.ui.screens.home.components.FlashlightPowerButton
+import com.mitch.dimlight.ui.screen.home.components.BrightnessSlider
+import com.mitch.dimlight.ui.screen.home.components.BrightnessTextFraction
+import com.mitch.dimlight.ui.screen.home.components.FlashlightBrightnessControls
+import com.mitch.dimlight.ui.screen.home.components.FlashlightImage
+import com.mitch.dimlight.ui.screen.home.components.FlashlightPowerButton
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph

@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home
+package com.mitch.dimlight.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases

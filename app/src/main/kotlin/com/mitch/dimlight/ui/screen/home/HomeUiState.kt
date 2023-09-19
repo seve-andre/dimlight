@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home
+package com.mitch.dimlight.ui.screen.home
 
 sealed interface HomeUiState {
     data object Loading : HomeUiState

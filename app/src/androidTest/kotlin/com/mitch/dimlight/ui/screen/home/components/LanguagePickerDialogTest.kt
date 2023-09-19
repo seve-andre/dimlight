@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home.components
+package com.mitch.dimlight.ui.screen.home.components
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed

@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,13 +31,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mitch.dimlight.navigation.NavGraphs
+import com.mitch.dimlight.navigation.destinations.SettingsRouteDestination
 import com.mitch.dimlight.ui.theme.DimlightMaterialTheme
 import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
-import com.mitch.dimlight.ui.util.components.dialog.ClosableDialog
 import com.mitch.dimlight.ui.util.rememberDimlightState
 import com.mitch.dimlight.util.DimlightTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.navigate
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Settings
@@ -89,19 +89,6 @@ class MainActivity : AppCompatActivity() {
                     isThemeDark = isThemeDark
                 ) {
                     val appState = rememberDimlightState()
-                    var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
-
-                    if (showSettingsDialog) {
-                        ClosableDialog(
-                            onDismiss = { showSettingsDialog = false },
-                            title = {
-                                Text("dadddewfwefas")
-                            },
-                            body = {
-                                Text("fewmfomewgo rwgo wrko ")
-                            }
-                        )
-                    }
 
                     Scaffold(
                         topBar = {
@@ -120,7 +107,9 @@ class MainActivity : AppCompatActivity() {
                                         state = rememberTooltipState()
                                     ) {
                                         IconButton(
-                                            onClick = { showSettingsDialog = true }
+                                            onClick = {
+                                                appState.navController.navigate(SettingsRouteDestination)
+                                            }
                                         ) {
                                             Icon(
                                                 imageVector = EvaIcons.Outline.Settings,

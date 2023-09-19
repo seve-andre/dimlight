@@ -1,4 +1,4 @@
-package com.mitch.dimlight.ui.screens.home.components
+package com.mitch.dimlight.ui.screen.home.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
