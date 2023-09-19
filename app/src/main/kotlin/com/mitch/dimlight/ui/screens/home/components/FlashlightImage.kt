@@ -2,7 +2,11 @@ package com.mitch.dimlight.ui.screens.home.components
 
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,19 +31,27 @@ fun FlashlightImage(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (flashlightBrightnessDrawable != null && brightnessLevel > 0) {
-            flashlightBrightnessDrawable.level = convert(brightnessLevel)
-                .fromRange(FlashlightUtils.brightnessActiveRange)
-                .toRange(0..4)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .height(IntrinsicSize.Max)
+        ) {
+            if (flashlightBrightnessDrawable != null && brightnessLevel > 0) {
+                flashlightBrightnessDrawable.level = convert(brightnessLevel)
+                    .fromRange(FlashlightUtils.brightnessActiveRange)
+                    .toRange(0..4)
 
-            Image(
-                painter = rememberDrawablePainter(flashlightBrightnessDrawable),
-                contentDescription = null
-            )
+                Image(
+                    painter = rememberDrawablePainter(flashlightBrightnessDrawable),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
         }
         Image(
             painter = painterResource(id = R.drawable.flashlight),
-            contentDescription = null
+            contentDescription = null,
+            modifier = Modifier.weight(2f)
         )
     }
 }
