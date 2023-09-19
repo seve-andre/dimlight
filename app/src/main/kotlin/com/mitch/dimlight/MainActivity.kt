@@ -8,14 +8,25 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,9 +35,13 @@ import com.mitch.dimlight.navigation.NavGraphs
 import com.mitch.dimlight.ui.theme.DimlightMaterialTheme
 import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
+import com.mitch.dimlight.ui.util.components.dialog.ClosableDialog
 import com.mitch.dimlight.ui.util.rememberDimlightState
 import com.mitch.dimlight.util.DimlightTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Settings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         /* Must be called before super.onCreate()
          *
@@ -73,8 +89,48 @@ class MainActivity : AppCompatActivity() {
                     isThemeDark = isThemeDark
                 ) {
                     val appState = rememberDimlightState()
+                    var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
+
+                    if (showSettingsDialog) {
+                        ClosableDialog(
+                            onDismiss = { showSettingsDialog = false },
+                            title = {
+                                Text("dadddewfwefas")
+                            },
+                            body = {
+                                Text("fewmfomewgo rwgo wrko ")
+                            }
+                        )
+                    }
 
                     Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(text = stringResource(R.string.app_name))
+                                },
+                                actions = {
+                                    TooltipBox(
+                                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                        tooltip = {
+                                            PlainTooltip {
+                                                Text("Show settings")
+                                            }
+                                        },
+                                        state = rememberTooltipState()
+                                    ) {
+                                        IconButton(
+                                            onClick = { showSettingsDialog = true }
+                                        ) {
+                                            Icon(
+                                                imageVector = EvaIcons.Outline.Settings,
+                                                contentDescription = "Show settings"
+                                            )
+                                        }
+                                    }
+                                }
+                            )
+                        },
                         snackbarHost = { SnackbarHost(appState.snackbarHostState) }
                     ) { padding ->
                         Box(

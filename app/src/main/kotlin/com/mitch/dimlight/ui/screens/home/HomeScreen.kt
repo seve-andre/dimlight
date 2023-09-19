@@ -15,7 +15,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
@@ -25,7 +24,6 @@ import com.mitch.dimlight.ui.screens.home.components.FlashlightBrightnessControl
 import com.mitch.dimlight.ui.screens.home.components.FlashlightImage
 import com.mitch.dimlight.ui.screens.home.components.FlashlightPowerButton
 import com.mitch.dimlight.ui.theme.custom.padding
-import com.mitch.dimlight.util.ToastController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 
@@ -51,8 +49,6 @@ fun HomeScreen(
 ) {
     var brightnessLevel by rememberSaveable { mutableIntStateOf(0) }
     val isOn by remember { derivedStateOf { brightnessLevel != 0 } }
-
-    val context = LocalContext.current
 
     Column(modifier = modifier.fillMaxSize()) {
         // 1) flashlight image with slider
@@ -111,11 +107,6 @@ fun HomeScreen(
                 onControlEmit = {
                     onTurnOnFlashlight(it)
                     brightnessLevel = it
-
-                    ToastController.show(
-                        context,
-                        "Flashlight brightness set at $it/${BrightnessFixedLevel.Max.value}"
-                    )
                 }
             )
         }
