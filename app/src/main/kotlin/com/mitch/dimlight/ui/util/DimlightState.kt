@@ -11,6 +11,7 @@ import com.mitch.dimlight.navigation.NavGraphs
 import com.mitch.dimlight.navigation.appCurrentDestinationAsState
 import com.mitch.dimlight.navigation.appDestination
 import com.mitch.dimlight.navigation.destinations.Destination
+import com.mitch.dimlight.navigation.destinations.HomeRouteDestination
 import com.mitch.dimlight.navigation.startAppDestination
 import com.mitch.dimlight.util.SnackbarController
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 fun rememberDimlightState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope()
 ): DimlightState {
     return remember(navController, snackbarHostState, coroutineScope) {
         DimlightState(navController, snackbarHostState, coroutineScope)
@@ -52,7 +53,10 @@ class DimlightState(
     val prevDestination: Destination?
         @Composable get() = navController.previousBackStackEntry?.appDestination()
 
+    val shouldShowSettingsTopBar: Boolean
+        @Composable get() = currentDestination is HomeRouteDestination
+
     fun goBack() {
-        navController.navigateUp()
+        navController.popBackStack()
     }
 }

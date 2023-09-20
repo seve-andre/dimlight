@@ -32,12 +32,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mitch.dimlight.navigation.NavGraphs
 import com.mitch.dimlight.navigation.destinations.SettingsRouteDestination
+import com.mitch.dimlight.ui.screen.settings.SettingsRoute
 import com.mitch.dimlight.ui.theme.DimlightMaterialTheme
 import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.mitch.dimlight.ui.util.rememberDimlightState
 import com.mitch.dimlight.util.DimlightTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.navigate
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -90,33 +92,35 @@ class MainActivity : AppCompatActivity() {
 
                     Scaffold(
                         topBar = {
-                            TopAppBar(
-                                title = {
-                                    Text(text = stringResource(R.string.app_name))
-                                },
-                                actions = {
-                                    TooltipBox(
-                                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                                        tooltip = {
-                                            PlainTooltip {
-                                                Text("Show settings")
-                                            }
-                                        },
-                                        state = rememberTooltipState()
-                                    ) {
-                                        IconButton(
-                                            onClick = {
-                                                appState.navController.navigate(SettingsRouteDestination)
-                                            }
+                            if (appState.shouldShowSettingsTopBar) {
+                                TopAppBar(
+                                    title = {
+                                        Text(text = stringResource(R.string.app_name))
+                                    },
+                                    actions = {
+                                        TooltipBox(
+                                            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                            tooltip = {
+                                                PlainTooltip {
+                                                    Text("Show settings")
+                                                }
+                                            },
+                                            state = rememberTooltipState()
                                         ) {
-                                            Icon(
-                                                imageVector = EvaIcons.Outline.Settings,
-                                                contentDescription = "Show settings"
-                                            )
+                                            IconButton(
+                                                onClick = {
+                                                    appState.navController.navigate(SettingsRouteDestination)
+                                                }
+                                            ) {
+                                                Icon(
+                                                    imageVector = EvaIcons.Outline.Settings,
+                                                    contentDescription = "Show settings"
+                                                )
+                                            }
                                         }
                                     }
-                                }
-                            )
+                                )
+                            }
                         },
                         snackbarHost = { SnackbarHost(appState.snackbarHostState) }
                     ) { padding ->
@@ -128,7 +132,13 @@ class MainActivity : AppCompatActivity() {
                             DestinationsNavHost(
                                 navGraph = NavGraphs.root,
                                 navController = appState.navController
-                            )
+                            ) {
+                                composable(SettingsRouteDestination) {
+                                    SettingsRoute(
+                                        onBackClick = { appState.goBack() }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
