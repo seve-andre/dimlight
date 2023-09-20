@@ -26,17 +26,14 @@ fun FlashlightPowerButton(
     isOn: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val turnOnOffStringId = if (isOn) {
-        R.string.turn_off_flashlight
-    } else {
-        R.string.turn_on_flashlight
-    }
+    val flashlightCommand =
+        stringResource(if (isOn) R.string.turn_off_flashlight else R.string.turn_on_flashlight)
 
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = {
             PlainTooltip {
-                Text(stringResource(turnOnOffStringId))
+                Text(flashlightCommand)
             }
         },
         state = rememberTooltipState()
@@ -49,7 +46,7 @@ fun FlashlightPowerButton(
         ) {
             Icon(
                 imageVector = EvaIcons.Outline.Power,
-                contentDescription = stringResource(turnOnOffStringId)
+                contentDescription = flashlightCommand
             )
         }
     }

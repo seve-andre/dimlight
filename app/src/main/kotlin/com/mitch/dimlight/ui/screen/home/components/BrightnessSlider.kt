@@ -24,13 +24,13 @@ fun BrightnessSlider(
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val sliderDescriptionStringId = stringResource(R.string.change_flashlight_brightness_level)
+    val sliderDescription = stringResource(R.string.change_flashlight_brightness_level)
 
     Slider(
         modifier = modifier
             .padding(padding.medium)
             .semantics {
-                contentDescription = sliderDescriptionStringId
+                contentDescription = sliderDescription
             },
         value = brightnessLevel.toFloat(),
         onValueChange = {
