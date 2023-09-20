@@ -1,13 +1,13 @@
 package com.mitch.dimlight.domain.repository
 
+import com.mitch.dimlight.domain.model.SettingsData
 import com.mitch.dimlight.util.DimlightLanguage
 import com.mitch.dimlight.util.DimlightTheme
 import kotlinx.coroutines.flow.Flow
 
 interface UserSettingsRepository {
-    fun getTheme(): Flow<DimlightTheme>
-    suspend fun setTheme(theme: DimlightTheme)
+    val settingsData: Flow<SettingsData>
 
-    fun getLanguage(): Flow<DimlightLanguage>
+    suspend fun setTheme(theme: DimlightTheme)
     fun setLanguage(language: DimlightLanguage)
 }

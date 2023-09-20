@@ -19,8 +19,8 @@ class MainActivityViewModel @Inject constructor(
      * Initial [MainActivity] ui state is set to [MainActivityUiState.Loading] and mapped to
      * [MainActivityUiState.Success] once the [DimlightTheme] data is retrieved
      */
-    val uiState = userSettingsRepository.getTheme().map {
-        MainActivityUiState.Success(it)
+    val uiState = userSettingsRepository.settingsData.map {
+        MainActivityUiState.Success(it.theme)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
