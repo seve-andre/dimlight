@@ -1,5 +1,6 @@
 package com.mitch.dimlight.ui.screen.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +16,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mitch.dimlight.R
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.ui.screen.home.components.BrightnessSlider
 import com.mitch.dimlight.ui.screen.home.components.BrightnessTextFraction
 import com.mitch.dimlight.ui.screen.home.components.FlashlightBrightnessControls
-import com.mitch.dimlight.ui.screen.home.components.FlashlightImage
 import com.mitch.dimlight.ui.screen.home.components.FlashlightPowerButton
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.ramcosta.composedestinations.annotation.Destination
@@ -59,7 +61,10 @@ fun HomeScreen(
                 .weight(2f)
         ) {
             Box(contentAlignment = Alignment.Center) {
-                FlashlightImage(brightnessLevel)
+                Image(
+                    painter = painterResource(id = R.drawable.flashlight),
+                    contentDescription = null
+                )
                 BrightnessSlider(
                     brightnessLevel = brightnessLevel,
                     onBrightnessChange = {
