@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" alt="Dimlight logo" title="Dimlight logo" height="300" />
+  <img src="./app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" alt="Dimlight logo" title="Dimlight logo" height="300" />
 </div>
 
 # Dimlight
