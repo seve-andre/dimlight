@@ -63,18 +63,25 @@ private fun ThreeCenteredChipsLayout(
             chip3()
         }
     ) { measurables, constraints ->
-        val placeables = measurables.map { it.measure(constraints) }
-
-        val totalWidth = placeables.sumOf { it.width }
-
-        // Calculate the horizontal spacing between placeables
-        val spacing = (constraints.maxWidth - totalWidth) / (measurables.size + 1)
+        val secondPlaceable = measurables[1].measure(constraints)
+        val otherPlaceables = measurables
+            .filter { it != secondPlaceable }
+            .map { it.measure(constraints) }
 
         layout(constraints.maxWidth, constraints.maxHeight) {
-            var xPosition = spacing
-            placeables.forEach { placeable ->
-                placeable.placeRelative(xPosition, 0)
-                xPosition += placeable.width + spacing
+            secondPlaceable.placeRelative((constraints.maxWidth - secondPlaceable.width) / 2, 0)
+            otherPlaceables.forEachIndexed { index, placeable ->
+                if (index == 0) {
+                    placeable.placeRelative(
+                        (constraints.maxWidth - secondPlaceable.width - placeable.width * measurables.size) / 2,
+                        0
+                    )
+                } else {
+                    placeable.placeRelative(
+                        (constraints.maxWidth + secondPlaceable.width + placeable.width) / 2,
+                        0
+                    )
+                }
             }
         }
     }
