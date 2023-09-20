@@ -22,7 +22,7 @@ fun FlashlightBrightnessControls(
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(
-            space = padding.medium,
+            space = padding.small,
             alignment = Alignment.CenterHorizontally
         )
     ) {
@@ -66,16 +66,22 @@ private fun ThreeCenteredChipsLayout(
     ) { measurables, constraints ->
         val secondPlaceable = measurables[1].measure(constraints)
         val otherPlaceables = measurables
-            .filterIndexed { index, _ -> index != 1 }
+            .filter { it != secondPlaceable }
             .map { it.measure(constraints) }
 
         layout(constraints.maxWidth, constraints.maxHeight) {
             secondPlaceable.placeRelative((constraints.maxWidth - secondPlaceable.width) / 2, 0)
             otherPlaceables.forEachIndexed { index, placeable ->
                 if (index == 0) {
-                    placeable.placeRelative(placeable.width, 0)
+                    placeable.placeRelative(
+                        (constraints.maxWidth - secondPlaceable.width - placeable.width * measurables.size) / 2,
+                        0
+                    )
                 } else {
-                    placeable.placeRelative((constraints.maxWidth + placeable.width) / 2, 0)
+                    placeable.placeRelative(
+                        (constraints.maxWidth + secondPlaceable.width + placeable.width) / 2,
+                        0
+                    )
                 }
             }
         }
