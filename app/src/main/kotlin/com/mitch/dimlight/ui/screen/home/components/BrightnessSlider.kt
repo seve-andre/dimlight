@@ -8,10 +8,12 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.mitch.dimlight.R
 import com.mitch.dimlight.ui.theme.custom.padding
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,11 +24,13 @@ fun BrightnessSlider(
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val sliderDescriptionStringId = stringResource(R.string.change_flashlight_brightness_level)
+
     Slider(
         modifier = modifier
             .padding(padding.medium)
             .semantics {
-                contentDescription = "Change flashlight brightness level"
+                contentDescription = sliderDescriptionStringId
             },
         value = brightnessLevel.toFloat(),
         onValueChange = {

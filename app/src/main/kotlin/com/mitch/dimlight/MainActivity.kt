@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                                             positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                                             tooltip = {
                                                 PlainTooltip {
-                                                    Text("Show settings")
+                                                    Text(stringResource(R.string.go_to_settings))
                                                 }
                                             },
                                             state = rememberTooltipState()
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                                             ) {
                                                 Icon(
                                                     imageVector = EvaIcons.Outline.Settings,
-                                                    contentDescription = "Show settings"
+                                                    contentDescription = stringResource(R.string.go_to_settings)
                                                 )
                                             }
                                         }

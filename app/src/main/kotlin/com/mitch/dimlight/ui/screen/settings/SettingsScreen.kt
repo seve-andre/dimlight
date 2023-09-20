@@ -108,7 +108,7 @@ fun SettingsContent(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = EvaIcons.Outline.ArrowBack,
-                            contentDescription = "Go back"
+                            contentDescription = stringResource(R.string.go_back)
                         )
                     }
                 },

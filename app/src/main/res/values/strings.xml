@@ -12,4 +12,9 @@
     <string name="min">Min</string>
     <string name="half">Half</string>
     <string name="max">Max</string>
+    <string name="turn_on_flashlight">Turn on flashlight</string>
+    <string name="turn_off_flashlight">Turn off flashlight</string>
+    <string name="change_flashlight_brightness_level">Change flashlight brightness level</string>
+    <string name="go_back">Go back</string>
+    <string name="go_to_settings">Go to settings</string>
 </resources>

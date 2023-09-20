@@ -6,7 +6,9 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mitch.dimlight.R
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Power
@@ -17,6 +19,12 @@ fun FlashlightPowerButton(
     isOn: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val turnOnOffStringId = if (isOn) {
+        R.string.turn_off_flashlight
+    } else {
+        R.string.turn_on_flashlight
+    }
+
     FilledIconButton(
         onClick = onClick,
         modifier = modifier
@@ -25,7 +33,7 @@ fun FlashlightPowerButton(
     ) {
         Icon(
             imageVector = EvaIcons.Outline.Power,
-            contentDescription = "Turn flashlight ${if (isOn) "on" else "off"}"
+            contentDescription = stringResource(turnOnOffStringId)
         )
     }
 }
