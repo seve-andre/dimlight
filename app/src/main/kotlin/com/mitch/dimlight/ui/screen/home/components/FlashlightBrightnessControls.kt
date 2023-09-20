@@ -3,10 +3,10 @@ package com.mitch.dimlight.ui.screen.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
@@ -20,11 +20,10 @@ fun FlashlightBrightnessControls(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(
-            space = padding.small,
-            alignment = Alignment.CenterHorizontally
-        )
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = padding.large),
+        horizontalArrangement = Arrangement.Center
     ) {
         ThreeCenteredChipsLayout(
             chip1 = {
@@ -64,25 +63,18 @@ private fun ThreeCenteredChipsLayout(
             chip3()
         }
     ) { measurables, constraints ->
-        val secondPlaceable = measurables[1].measure(constraints)
-        val otherPlaceables = measurables
-            .filter { it != secondPlaceable }
-            .map { it.measure(constraints) }
+        val placeables = measurables.map { it.measure(constraints) }
+
+        val totalWidth = placeables.sumOf { it.width }
+
+        // Calculate the horizontal spacing between placeables
+        val spacing = (constraints.maxWidth - totalWidth) / (measurables.size + 1)
 
         layout(constraints.maxWidth, constraints.maxHeight) {
-            secondPlaceable.placeRelative((constraints.maxWidth - secondPlaceable.width) / 2, 0)
-            otherPlaceables.forEachIndexed { index, placeable ->
-                if (index == 0) {
-                    placeable.placeRelative(
-                        (constraints.maxWidth - secondPlaceable.width - placeable.width * measurables.size) / 2,
-                        0
-                    )
-                } else {
-                    placeable.placeRelative(
-                        (constraints.maxWidth + secondPlaceable.width + placeable.width) / 2,
-                        0
-                    )
-                }
+            var xPosition = spacing
+            placeables.forEach { placeable ->
+                placeable.placeRelative(xPosition, 0)
+                xPosition += placeable.width + spacing
             }
         }
     }
