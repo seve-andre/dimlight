@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.mitch.dimlight.R
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.ui.theme.custom.padding
 
@@ -25,17 +27,17 @@ fun FlashlightBrightnessControls(
     ) {
         AssistChip(
             onClick = { onControlEmit(BrightnessFixedLevel.Min.value) },
-            label = { Text(text = "Min") }
+            label = { Text(stringResource(R.string.min)) }
         )
 
         AssistChip(
             onClick = { onControlEmit(BrightnessFixedLevel.Half.value) },
-            label = { Text(text = "Half") }
+            label = { Text(stringResource(R.string.half)) }
         )
 
         AssistChip(
             onClick = { onControlEmit(BrightnessFixedLevel.Max.value) },
-            label = { Text(text = "Max") }
+            label = { Text(stringResource(R.string.max)) }
         )
     }
 }

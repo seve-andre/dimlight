@@ -62,7 +62,7 @@ fun HomeScreen(
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Image(
-                    painter = painterResource(id = R.drawable.flashlight),
+                    painter = painterResource(R.drawable.flashlight),
                     contentDescription = null
                 )
                 BrightnessSlider(

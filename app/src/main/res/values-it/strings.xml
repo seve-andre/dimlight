@@ -8,5 +8,8 @@
     <string name="change_theme">Cambia tema</string>
     <string name="cancel">Annulla</string>
     <string name="save">Salva</string>
-    <string name="not_connected">Nessuna connessione a internet!</string>
+    <string name="settings">Impostazioni</string>
+    <string name="min">Minimo</string>
+    <string name="half">Metà</string>
+    <string name="max">Massimo</string>
 </resources>
