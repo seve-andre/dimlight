@@ -9,12 +9,12 @@ import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mitch.dimlight.R
+import com.mitch.dimlight.util.rememberTooltipStateFix
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Power
@@ -36,7 +36,7 @@ fun FlashlightPowerButton(
                 Text(flashlightCommand)
             }
         },
-        state = rememberTooltipState()
+        state = rememberTooltipStateFix()
     ) {
         FilledIconButton(
             onClick = onClick,

@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -38,6 +37,7 @@ import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.mitch.dimlight.ui.util.rememberDimlightState
 import com.mitch.dimlight.util.DimlightTheme
+import com.mitch.dimlight.util.rememberTooltipStateFix
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.navigate
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                                                     Text(stringResource(R.string.go_to_settings))
                                                 }
                                             },
-                                            state = rememberTooltipState()
+                                            state = rememberTooltipStateFix()
                                         ) {
                                             IconButton(
                                                 onClick = {
