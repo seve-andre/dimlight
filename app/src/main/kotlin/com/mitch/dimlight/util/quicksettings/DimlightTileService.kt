@@ -10,19 +10,16 @@ import com.mitch.dimlight.R
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DimlightTileService : TileService() {
-
-    @Inject
-    lateinit var flashlightUseCases: FlashlightUseCases
 
     companion object {
         fun getComponentName(context: Context): ComponentName {
@@ -34,10 +31,10 @@ class DimlightTileService : TileService() {
         }
     }
 
-    // The coroutine scope that's available from onCreate to onDestroy.
-    private var coroutineScope: CoroutineScope? = null
+    @Inject
+    lateinit var flashlightUseCases: FlashlightUseCases
 
-    // The job for observing the state change. Available from onStartListening to onStopListening.
+    private var coroutineScope: CoroutineScope? = null
     private var listeningJob: Job? = null
 
     override fun onCreate() {
@@ -94,18 +91,18 @@ class DimlightTileService : TileService() {
         }
     }
 
-    private fun updateTile(active: Boolean) {
-        val tile = qsTile
-        // Update the tile states.
+    private fun updateTile(shouldBeActivated: Boolean) {
+        val tile = this.qsTile
         tile.label = getString(R.string.app_name)
         tile.icon = getIcon(this)
-        tile.state = if (active) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-        tile.stateDescription = if (active) "Active" else "Inactive"
+        tile.state = if (shouldBeActivated) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+        tile.stateDescription =
+            if (shouldBeActivated) getString(R.string.active) else getString(R.string.inactive)
 
-        if (active) {
-            flashlightUseCases.turnOffFlashlight
-        } else {
+        if (shouldBeActivated) {
             flashlightUseCases.turnOnFlashlight(BrightnessFixedLevel.Max.value)
+        } else {
+            flashlightUseCases.turnOffFlashlight()
         }
 
         // The state updates won't be reflected until we call updateTile.
