@@ -1,5 +1,6 @@
 package com.mitch.dimlight.ui.screen.home
 
+import android.service.quicksettings.TileService
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,26 +9,33 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.datastore.preferences.core.edit
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mitch.dimlight.R
+import com.mitch.dimlight.data.local.datastore.flashlight.BRIGHTNESS_VALUE
+import com.mitch.dimlight.data.local.datastore.flashlight.flashlightDataStore
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.ui.screen.home.components.BrightnessSlider
 import com.mitch.dimlight.ui.screen.home.components.BrightnessTextFraction
 import com.mitch.dimlight.ui.screen.home.components.FlashlightBrightnessControls
 import com.mitch.dimlight.ui.screen.home.components.FlashlightPowerButton
 import com.mitch.dimlight.ui.theme.custom.padding
+import com.mitch.dimlight.util.quicksettings.DimlightTileService
+import com.mitch.dimlight.util.quicksettings.TILE_ACTIVE
+import com.mitch.dimlight.util.quicksettings.quickSettingsDataStore
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @RootNavGraph(start = true)
 @Destination
@@ -35,7 +43,10 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val isFlashlightOn by viewModel.isFlashlightOn.collectAsStateWithLifecycle()
+
     HomeScreen(
+        isFlashlightOn = isFlashlightOn,
         onTurnOnFlashlight = viewModel::turnOnFlashlight,
         onTurnOffFlashlight = viewModel::turnOffFlashlight
     )
@@ -43,12 +54,18 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
+    isFlashlightOn: Boolean,
     onTurnOnFlashlight: (Int) -> Unit,
     onTurnOffFlashlight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var brightnessLevel by rememberSaveable { mutableIntStateOf(0) }
-    val isOn by remember { derivedStateOf { brightnessLevel != 0 } }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val brightnessLevelFlow =
+        remember { context.flashlightDataStore.data.map { it[BRIGHTNESS_VALUE] ?: 0 } }
+
+    val brightnessLevel by brightnessLevelFlow.collectAsStateWithLifecycle(initialValue = 0)
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -67,13 +84,27 @@ fun HomeScreen(
                 )
                 BrightnessSlider(
                     brightnessLevel = brightnessLevel,
-                    onBrightnessChange = {
-                        brightnessLevel = it
-                        if (brightnessLevel == 0) {
+                    onBrightnessChange = { brightness ->
+                        coroutineScope.launch {
+                            context.flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = brightness }
+                        }
+
+                        if (brightness == 0) {
                             onTurnOffFlashlight()
                         } else {
-                            onTurnOnFlashlight(brightnessLevel)
+                            onTurnOnFlashlight(brightness)
                         }
+                    },
+                    onValueChangeFinished = {
+                        coroutineScope.launch {
+                            context.quickSettingsDataStore.edit { prefs ->
+                                prefs[TILE_ACTIVE] = isFlashlightOn
+                            }
+                        }
+                        TileService.requestListeningState(
+                            context,
+                            DimlightTileService.getComponentName(context)
+                        )
                     },
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
@@ -96,24 +127,42 @@ fun HomeScreen(
                     BrightnessTextFraction(brightnessLevel)
                     FlashlightPowerButton(
                         onClick = {
-                            brightnessLevel = if (isOn) {
+                            if (isFlashlightOn) {
                                 onTurnOffFlashlight()
-                                0
+                                coroutineScope.launch {
+                                    context.flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = 0 }
+                                }
                             } else {
                                 onTurnOnFlashlight(BrightnessFixedLevel.Max.value)
-                                BrightnessFixedLevel.Max.value
+                                coroutineScope.launch {
+                                    context.flashlightDataStore.edit {
+                                        it[BRIGHTNESS_VALUE] = BrightnessFixedLevel.Max.value
+                                    }
+                                }
                             }
+
+                            coroutineScope.launch {
+                                context.quickSettingsDataStore.edit { prefs ->
+                                    prefs[TILE_ACTIVE] = !isFlashlightOn
+                                }
+                            }
+                            TileService.requestListeningState(
+                                context,
+                                DimlightTileService.getComponentName(context)
+                            )
                         },
-                        isOn = isOn
+                        isOn = isFlashlightOn
                     )
                 }
             }
 
             // 3) brightness controls
             FlashlightBrightnessControls(
-                onControlEmit = {
-                    onTurnOnFlashlight(it)
-                    brightnessLevel = it
+                onControlEmit = { brightness ->
+                    onTurnOnFlashlight(brightness)
+                    coroutineScope.launch {
+                        context.flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = brightness }
+                    }
                 }
             )
         }

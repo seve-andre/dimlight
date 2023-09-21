@@ -30,6 +30,7 @@
                 android:value="true" />
         </service>
 
+        <!-- 18-character limit for android:label -->
         <service
             android:name=".util.quicksettings.DimlightTileService"
             android:exported="true"
@@ -54,6 +55,8 @@
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
         </service>
+
+        <service android:name=".util.flashlight.FlashlightService" />
     </application>
 
 </manifest>

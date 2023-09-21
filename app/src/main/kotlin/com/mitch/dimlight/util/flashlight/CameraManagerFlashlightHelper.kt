@@ -3,8 +3,9 @@ package com.mitch.dimlight.util.flashlight
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
 class CameraManagerFlashlightHelper @Inject constructor(
@@ -14,8 +15,16 @@ class CameraManagerFlashlightHelper @Inject constructor(
         ?: throw CameraAccessException(CameraAccessException.CAMERA_ERROR)
     private val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-    override val isOn: Flow<Boolean> = flow {
-        emit(cameraManager.getTorchStrengthLevel(cameraId) > 0)
+    override val isOn: Flow<Boolean> = callbackFlow {
+        val callback = object : CameraManager.TorchCallback() {
+            override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
+                trySend(enabled)
+            }
+        }
+
+        cameraManager.registerTorchCallback(callback, null)
+        trySend(cameraManager.getTorchStrengthLevel(cameraId) > 0)
+        awaitClose { cameraManager.unregisterTorchCallback(callback) }
     }
 
     override val maxLevel: Int

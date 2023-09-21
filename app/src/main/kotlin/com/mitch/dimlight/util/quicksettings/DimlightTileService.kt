@@ -3,20 +3,23 @@ package com.mitch.dimlight.util.quicksettings
 import android.content.ComponentName
 import android.content.Context
 import android.graphics.drawable.Icon
+import android.hardware.camera2.CameraManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.datastore.preferences.core.edit
 import com.mitch.dimlight.R
+import com.mitch.dimlight.data.local.datastore.flashlight.BRIGHTNESS_VALUE
+import com.mitch.dimlight.data.local.datastore.flashlight.flashlightDataStore
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DimlightTileService : TileService() {
@@ -33,6 +36,9 @@ class DimlightTileService : TileService() {
 
     @Inject
     lateinit var flashlightUseCases: FlashlightUseCases
+
+    @Inject
+    lateinit var cameraManager: CameraManager
 
     private var coroutineScope: CoroutineScope? = null
     private var listeningJob: Job? = null
@@ -53,14 +59,14 @@ class DimlightTileService : TileService() {
     override fun onTileAdded() {
         super.onTileAdded()
         coroutineScope?.launch {
-            dataStore.edit { it[TILE_ADDED] = true }
+            quickSettingsDataStore.edit { it[TILE_ADDED] = true }
         }
     }
 
     override fun onTileRemoved() {
         super.onTileRemoved()
         coroutineScope?.launch {
-            dataStore.edit { it[TILE_ADDED] = false }
+            quickSettingsDataStore.edit { it[TILE_ADDED] = false }
         }
     }
 
@@ -69,7 +75,7 @@ class DimlightTileService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
         listeningJob = coroutineScope?.launch {
-            dataStore.data
+            quickSettingsDataStore.data
                 .map { prefs -> prefs[TILE_ACTIVE] ?: false }
                 .collect { active -> updateTile(active) }
         }
@@ -83,7 +89,7 @@ class DimlightTileService : TileService() {
     override fun onClick() {
         super.onClick()
         coroutineScope?.launch {
-            dataStore.edit { prefs ->
+            quickSettingsDataStore.edit { prefs ->
                 val newState = !(prefs[TILE_ACTIVE] ?: true)
                 prefs[TILE_ACTIVE] = newState
                 updateTile(newState)
@@ -101,8 +107,14 @@ class DimlightTileService : TileService() {
 
         if (shouldBeActivated) {
             flashlightUseCases.turnOnFlashlight(BrightnessFixedLevel.Max.value)
+            coroutineScope?.launch {
+                flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = BrightnessFixedLevel.Max.value }
+            }
         } else {
             flashlightUseCases.turnOffFlashlight()
+            coroutineScope?.launch {
+                flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = 0 }
+            }
         }
 
         // The state updates won't be reflected until we call updateTile.

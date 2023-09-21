@@ -21,7 +21,8 @@ import com.mitch.dimlight.ui.theme.custom.padding
 fun BrightnessSlider(
     brightnessLevel: Int,
     onBrightnessChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onValueChangeFinished: (() -> Unit)? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val sliderDescription = stringResource(R.string.change_flashlight_brightness_level)
@@ -43,6 +44,7 @@ fun BrightnessSlider(
                 interactionSource = interactionSource,
                 thumbSize = DpSize(40.dp, 40.dp)
             )
-        }
+        },
+        onValueChangeFinished = onValueChangeFinished
     )
 }
