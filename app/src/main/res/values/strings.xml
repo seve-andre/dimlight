@@ -17,4 +17,6 @@
     <string name="change_flashlight_brightness_level">Change flashlight brightness level</string>
     <string name="go_back">Go back</string>
     <string name="go_to_settings">Go to settings</string>
+    <string name="active">Active</string>
+    <string name="inactive">Inactive</string>
 </resources>
