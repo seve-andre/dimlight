@@ -124,6 +124,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 datastore-proto = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }

@@ -168,6 +168,7 @@ dependencies {
     implementation(libs.room.ktx)
 
     // Datastore (previously SharedPreferences)
+    implementation(libs.datastore)
     implementation(libs.datastore.proto)
     implementation(libs.protobuf.kotlin.lite)
 
