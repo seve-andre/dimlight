@@ -7,14 +7,22 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.datastore.preferences.core.edit
 import com.mitch.dimlight.R
+import com.mitch.dimlight.domain.model.BrightnessFixedLevel
+import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DimlightTileService : TileService() {
+
+    @Inject
+    lateinit var flashlightUseCases: FlashlightUseCases
 
     companion object {
         fun getComponentName(context: Context): ComponentName {
@@ -93,6 +101,13 @@ class DimlightTileService : TileService() {
         tile.icon = getIcon(this)
         tile.state = if (active) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         tile.stateDescription = if (active) "Active" else "Inactive"
+
+        if (active) {
+            flashlightUseCases.turnOffFlashlight
+        } else {
+            flashlightUseCases.turnOnFlashlight(BrightnessFixedLevel.Max.value)
+        }
+
         // The state updates won't be reflected until we call updateTile.
         tile.updateTile()
     }
