@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- add install-time permissions here -->
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-feature android:name="android.hardware.camera.flash" />
 
     <application
         android:name=".DimlightApplication"
