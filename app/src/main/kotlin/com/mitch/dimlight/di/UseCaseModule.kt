@@ -1,5 +1,6 @@
 package com.mitch.dimlight.di
 
+import com.mitch.dimlight.domain.usecase.flashlight.CheckFlashlightStatusUseCase
 import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases
 import com.mitch.dimlight.domain.usecase.flashlight.TurnOffFlashlightUseCase
 import com.mitch.dimlight.domain.usecase.flashlight.TurnOnFlashlightUseCase
@@ -19,7 +20,8 @@ object UseCaseModule {
     ): FlashlightUseCases {
         return FlashlightUseCases(
             turnOnFlashlight = TurnOnFlashlightUseCase(flashlightHelper),
-            turnOffFlashlight = TurnOffFlashlightUseCase(flashlightHelper)
+            turnOffFlashlight = TurnOffFlashlightUseCase(flashlightHelper),
+            checkFlashlightStatus = CheckFlashlightStatusUseCase(flashlightHelper)
         )
     }
 }

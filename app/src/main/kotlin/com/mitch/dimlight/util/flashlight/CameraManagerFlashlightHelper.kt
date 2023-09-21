@@ -4,7 +4,7 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CameraManagerFlashlightHelper @Inject constructor(
@@ -14,8 +14,8 @@ class CameraManagerFlashlightHelper @Inject constructor(
         ?: throw CameraAccessException(CameraAccessException.CAMERA_ERROR)
     private val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-    override val hasPermission: Flow<Boolean> = callbackFlow {
-//        val cameraPermission = context.checkSelfPermission(android.Manifest.permission.CAMERA)
+    override val isOn: Flow<Boolean> = flow {
+        emit(cameraManager.getTorchStrengthLevel(cameraId) > 0)
     }
 
     override val maxLevel: Int
