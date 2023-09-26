@@ -1,5 +1,7 @@
 package com.mitch.dimlight.util
 
+import kotlin.math.roundToInt
+
 class RangeConverter private constructor() {
     companion object {
         fun <T> convert(number: T): ValueRangeConverter<T> where T : Number, T : Comparable<T> {
@@ -35,8 +37,13 @@ class InitialRangeConverter<T, R>(
                 (fromRangeEnd - fromRangeStart)
             ) + toRangeStart
 
-        @Suppress("UNCHECKED_CAST")
-        return result as T
+        return if (initialRange.contains(targetRange.endInclusive)) {
+            @Suppress("UNCHECKED_CAST")
+            result.roundToInt() as T
+        } else {
+            @Suppress("UNCHECKED_CAST")
+            return result as T
+        }
     }
 }
 
