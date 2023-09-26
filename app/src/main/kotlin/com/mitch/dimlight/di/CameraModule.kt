@@ -18,10 +18,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import javax.inject.Singleton
+import timber.log.Timber
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -37,6 +38,8 @@ object CameraModule {
         val detectChangesCallback = object : CameraManager.TorchCallback() {
             val scope = CoroutineScope(SupervisorJob())
             override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
+                Timber.d("torch - enabled: $enabled")
+                Timber.d("torch - strength level: ${cameraManager?.getTorchStrengthLevel(cameraId)}")
                 if (enabled) {
                     cameraManager?.getTorchStrengthLevel(cameraId)?.let {
                         onTorchStrengthLevelChanged(
@@ -65,6 +68,8 @@ object CameraModule {
                 val adjustedRangeLevel = convert(newStrengthLevel)
                     .fromRange(brightnessActiveMin..45)
                     .toRange(FlashlightUtils.brightnessActiveRange)
+
+                Timber.d("torch - old: $newStrengthLevel, new: $adjustedRangeLevel")
 
                 scope.launch {
                     context.flashlightDataStore.edit { it[BRIGHTNESS_VALUE] = adjustedRangeLevel }
