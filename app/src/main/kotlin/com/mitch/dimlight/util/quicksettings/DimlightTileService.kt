@@ -70,8 +70,8 @@ class DimlightTileService : TileService() {
         super.onStartListening()
         listeningJob = coroutineScope?.launch {
             quickSettingsDataStore.data
-                .map { prefs -> prefs[TILE_ACTIVE] ?: false }
-                .collect { active -> updateTile(active) }
+                .map { prefs -> prefs[TILE_ACTIVE] ?: true }
+                .collect { active -> updateTileAppearance(active) }
         }
     }
 
@@ -85,12 +85,12 @@ class DimlightTileService : TileService() {
         coroutineScope?.launch {
             quickSettingsDataStore.edit { prefs ->
                 val newState = !(prefs[TILE_ACTIVE] ?: true)
-                updateTile(newState)
+                updateTileAndPerformAction(newState)
             }
         }
     }
 
-    private fun updateTile(shouldBeActivated: Boolean) {
+    private fun updateTileAppearance(shouldBeActivated: Boolean) {
         val tile = this.qsTile
         tile.label = getString(R.string.app_name)
         tile.icon = getIcon(this)
@@ -98,13 +98,21 @@ class DimlightTileService : TileService() {
         tile.stateDescription =
             if (shouldBeActivated) getString(R.string.active) else getString(R.string.inactive)
 
+        // The state updates won't be reflected until we call updateTile.
+        tile.updateTile()
+    }
+
+    private fun performTileAction(shouldBeActivated: Boolean) {
         if (shouldBeActivated) {
             flashlightUseCases.turnOnFlashlight(BrightnessFixedLevel.Max.value)
         } else {
             flashlightUseCases.turnOffFlashlight()
         }
-
-        // The state updates won't be reflected until we call updateTile.
-        tile.updateTile()
     }
+
+    private fun updateTileAndPerformAction(shouldBeActivated: Boolean) {
+        updateTileAppearance(shouldBeActivated)
+        performTileAction(shouldBeActivated)
+    }
+
 }
