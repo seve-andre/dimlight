@@ -13,12 +13,12 @@ class HomeViewModel @Inject constructor(
     private val flashlightUseCases: FlashlightUseCases
 ) : ViewModel() {
 
-    val isFlashlightOn = flashlightUseCases
-        .checkFlashlightStatus()
+    val brightnessLevel = flashlightUseCases
+        .getBrightnessLevel()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = false
+            initialValue = 0
         )
 
     fun turnOnFlashlight(level: Int) {
@@ -28,9 +28,4 @@ class HomeViewModel @Inject constructor(
     fun turnOffFlashlight() {
         flashlightUseCases.turnOffFlashlight()
     }
-}
-
-sealed interface FlashlightState {
-    data object On : FlashlightState
-    data object Off : FlashlightState
 }
