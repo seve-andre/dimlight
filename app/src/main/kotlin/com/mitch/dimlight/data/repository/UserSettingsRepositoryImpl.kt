@@ -9,10 +9,10 @@ import com.mitch.dimlight.domain.model.DimlightLanguage
 import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.domain.model.SettingsData
 import com.mitch.dimlight.domain.repository.UserSettingsRepository
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class UserSettingsRepositoryImpl @Inject constructor(
     private val userPreferencesLocalDataSource: UserPreferencesLocalDataSource,

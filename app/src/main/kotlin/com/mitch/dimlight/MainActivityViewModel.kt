@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.domain.repository.UserSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
