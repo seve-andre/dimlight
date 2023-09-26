@@ -2,12 +2,13 @@ package com.mitch.dimlight.ui.screen.home
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertRangeInfoEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.mitch.dimlight.R
-import com.mitch.dimlight.ui.util.components.loading.LoadingTag
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,35 +20,34 @@ class HomeScreenTest {
     private fun getString(@StringRes id: Int) = composeTestRule.activity.resources.getString(id)
 
     @Test
-    fun loading_showsLoadingScreen() {
+    fun showsOffState_whenBrightnessIsZero() {
         composeTestRule.setContent {
             HomeScreen(
+                brightnessLevel = 0,
                 onTurnOnFlashlight = { },
                 onTurnOffFlashlight = { }
             )
         }
 
-        composeTestRule
-            .onNodeWithTag(LoadingTag)
-            .assertIsDisplayed()
-    }
+        val expectedValue = 0f
+        val expectedRange = 0f..100f
 
-    @Test
-    fun success_showsSettingsOptions() {
-        composeTestRule.setContent {
-            HomeScreen(
-                onTurnOnFlashlight = { },
-                onTurnOffFlashlight = { }
+        /*
+        * 1) slider is at zero
+        * 2) text is 0/maxLevel
+        * */
+        composeTestRule
+            .onNodeWithContentDescription(getString(R.string.change_flashlight_brightness_level))
+            .assertIsDisplayed()
+            .assertRangeInfoEquals(
+                ProgressBarRangeInfo(
+                    current = expectedValue,
+                    range = expectedRange
+                )
             )
-        }
-
-        // assert both "change language" and "change theme" buttons are displayed
-        composeTestRule
-            .onNodeWithText(getString(R.string.change_language))
-            .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithText(getString(R.string.change_theme))
+            .onNodeWithText("0")
             .assertIsDisplayed()
     }
 }
