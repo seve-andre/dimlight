@@ -2,17 +2,17 @@ package com.mitch.dimlight.ui.screen.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mitch.dimlight.domain.model.DimlightLanguage
+import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.domain.repository.UserSettingsRepository
 import com.mitch.dimlight.ui.util.Result
 import com.mitch.dimlight.ui.util.asResult
-import com.mitch.dimlight.util.DimlightLanguage
-import com.mitch.dimlight.util.DimlightTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(

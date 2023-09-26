@@ -18,12 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mitch.dimlight.R
+import com.mitch.dimlight.domain.model.DimlightLanguage
+import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.domain.model.SettingsData
 import com.mitch.dimlight.ui.screen.settings.components.LanguagePickerDialog
 import com.mitch.dimlight.ui.screen.settings.components.ThemePickerDialog
 import com.mitch.dimlight.ui.util.components.loading.LoadingScreen
-import com.mitch.dimlight.util.DimlightLanguage
-import com.mitch.dimlight.util.DimlightTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline

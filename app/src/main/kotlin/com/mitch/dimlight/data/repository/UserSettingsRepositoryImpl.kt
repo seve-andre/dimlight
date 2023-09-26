@@ -3,16 +3,16 @@ package com.mitch.dimlight.data.repository
 import com.mitch.dimlight.data.local.LanguageLocalDataSource
 import com.mitch.dimlight.data.local.datastore.user.preferences.UserPreferencesLocalDataSource
 import com.mitch.dimlight.data.mapper.toAppLanguage
-import com.mitch.dimlight.data.mapper.toLocal
-import com.mitch.dimlight.data.mapper.toProto
+import com.mitch.dimlight.data.mapper.toDomainModel
+import com.mitch.dimlight.data.mapper.toProtoModel
+import com.mitch.dimlight.domain.model.DimlightLanguage
+import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.domain.model.SettingsData
 import com.mitch.dimlight.domain.repository.UserSettingsRepository
-import com.mitch.dimlight.util.DimlightLanguage
-import com.mitch.dimlight.util.DimlightTheme
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class UserSettingsRepositoryImpl @Inject constructor(
     private val userPreferencesLocalDataSource: UserPreferencesLocalDataSource,
@@ -25,7 +25,7 @@ class UserSettingsRepositoryImpl @Inject constructor(
             languageLocalDataSource.getLocale(),
             ::Pair
         ).map {
-            val theme = it.first.toLocal()
+            val theme = it.first.toDomainModel()
             val language = it.second.toAppLanguage()
 
             SettingsData(
@@ -35,7 +35,7 @@ class UserSettingsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun setTheme(theme: DimlightTheme) {
-        userPreferencesLocalDataSource.setProtoTheme(theme.toProto())
+        userPreferencesLocalDataSource.setProtoTheme(theme.toProtoModel())
     }
 
     override fun setLanguage(language: DimlightLanguage) {

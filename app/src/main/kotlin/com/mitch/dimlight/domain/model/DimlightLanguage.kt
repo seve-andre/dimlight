@@ -1,4 +1,4 @@
-package com.mitch.dimlight.util
+package com.mitch.dimlight.domain.model
 
 import androidx.annotation.DrawableRes
 import com.mitch.dimlight.R

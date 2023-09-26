@@ -30,6 +30,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.navigation.NavGraphs
 import com.mitch.dimlight.navigation.destinations.SettingsRouteDestination
 import com.mitch.dimlight.ui.screen.settings.SettingsRoute
@@ -37,7 +38,6 @@ import com.mitch.dimlight.ui.theme.DimlightMaterialTheme
 import com.mitch.dimlight.ui.theme.custom.LocalPadding
 import com.mitch.dimlight.ui.theme.custom.padding
 import com.mitch.dimlight.ui.util.rememberDimlightState
-import com.mitch.dimlight.util.DimlightTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.navigate
@@ -109,7 +109,9 @@ class MainActivity : AppCompatActivity() {
                                         ) {
                                             IconButton(
                                                 onClick = {
-                                                    appState.navController.navigate(SettingsRouteDestination)
+                                                    appState.navController.navigate(
+                                                        SettingsRouteDestination
+                                                    )
                                                 }
                                             ) {
                                                 Icon(

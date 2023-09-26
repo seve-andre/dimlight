@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.mitch.dimlight.R
+import com.mitch.dimlight.domain.model.DimlightTheme
 import com.mitch.dimlight.ui.theme.custom.padding
-import com.mitch.dimlight.util.DimlightTheme
 
 @Composable
 fun ThemePickerDialog(
