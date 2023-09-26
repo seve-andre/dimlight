@@ -56,7 +56,6 @@
                 android:value="true" />
         </service>
 
-        <service android:name=".util.flashlight.FlashlightService" />
     </application>
 
 </manifest>
