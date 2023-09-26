@@ -6,6 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.converter.ConvertWith
 import org.junit.jupiter.params.provider.CsvSource
 
 internal class RangeConverterTest {
@@ -26,12 +27,20 @@ internal class RangeConverterTest {
 
     @ParameterizedTest
     @CsvSource(
-        "10, 100",
-        "1, 1",
-        "5, 45"
+        "1, 1..10, 1, 1..100",
+        "10, 1..10, 100, 1..100",
+        "50, 1..100, 23, 1..45",
+        "23, 1..45, 50, 1..100"
     )
-    fun `test result is correct`(number: Int, expected: Int) {
-        val result = convert(number).fromRange(1..10).toRange(1..100)
+    fun `test result is correct`(
+        number: Int,
+        @ConvertWith(StringToIntRangeConverter::class) fromRange: IntRange,
+        expected: Int,
+        @ConvertWith(StringToIntRangeConverter::class) toRange: IntRange,
+    ) {
+        val result = convert(number)
+            .fromRange(fromRange)
+            .toRange(toRange)
 
         assertThat(result).isEqualTo(expected)
     }
