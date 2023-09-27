@@ -70,7 +70,7 @@ class DimlightTileService : TileService() {
         super.onStartListening()
         listeningJob = coroutineScope?.launch {
             quickSettingsDataStore.data
-                .map { prefs -> prefs[TILE_ACTIVE] ?: true }
+                .map { prefs -> prefs[TILE_ACTIVE] ?: false }
                 .collect { active -> updateTileAppearance(active) }
         }
     }
