@@ -10,13 +10,13 @@ import com.mitch.dimlight.R
 import com.mitch.dimlight.domain.model.BrightnessFixedLevel
 import com.mitch.dimlight.domain.usecase.flashlight.FlashlightUseCases
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DimlightTileService : TileService() {
@@ -114,5 +114,4 @@ class DimlightTileService : TileService() {
         updateTileAppearance(shouldBeActivated)
         performTileAction(shouldBeActivated)
     }
-
 }
