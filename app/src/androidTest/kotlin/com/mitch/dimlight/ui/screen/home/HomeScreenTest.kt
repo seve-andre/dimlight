@@ -47,7 +47,7 @@ class HomeScreenTest {
             )
 
         composeTestRule
-            .onNodeWithText("0")
+            .onNodeWithText("0/100")
             .assertIsDisplayed()
     }
 }
